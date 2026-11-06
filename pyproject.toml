@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "brand-impersonation-detector"
-version = "0.1.0"
+version = "0.1.1"
 description = "Self-hosted brand impersonation detection with signed, offline-verifiable evidence"
 readme = "README.md"
 license = "Apache-2.0"

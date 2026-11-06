@@ -5,6 +5,18 @@ All notable changes to this project are recorded here. Versions follow
 `bid.governance/v1`, `bid.projection.<kind>/v1`, ...) change only with a
 recorded entry.
 
+## 0.1.1 (2026-11-06)
+
+### Documentation
+
+- Links in the package description point to the repository on GitHub, so they
+  open from the PyPI project page.
+
+### Release
+
+- Release tags are published to PyPI from GitHub Actions with trusted
+  publishing; the upload waits for approval in the `pypi` environment.
+
 ## 0.1.0 (2026-11-06)
 
 First public version.
