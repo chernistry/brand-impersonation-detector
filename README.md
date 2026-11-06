@@ -55,8 +55,8 @@ sensors -> normalize -> cheap filters -> classify -> rank
 | Triage and decisions | Every verdict gets a signed receipt. A person confirms, rejects or escalates in the console; a declared releaser can reverse a confirm. |
 | Output | Report payloads from a confirmed finding (platform report, registrar abuse report, fraud-desk case, findings log, STIX 2.1), checked against policy packs. |
 
-Details: [architecture](docs/architecture.md) · [evidence format](docs/evidence-format.md) ·
-[governance](docs/governance.md).
+Details: [architecture](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/architecture.md) · [evidence format](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/evidence-format.md) ·
+[governance](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/governance.md).
 
 ## Quickstart
 
@@ -79,7 +79,7 @@ candidate has a receipt. Fixture runs are deterministic: two runs produce
 byte-identical signed evidence (`bid replay` checks this).
 
 Fixture runs use public development keys, so their receipts prove nothing.
-Set your own keys before real use ([deployment](docs/deployment.md#keys)).
+Set your own keys before real use ([deployment](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/deployment.md#keys)).
 
 ### Tamper check
 
@@ -124,13 +124,13 @@ state in `/data`.
 | `bid packs` | check a notice against a policy pack; best-effort report over receipts |
 | `bid conduct` | signed conduct review of the classifier on the labelled set |
 | `bid replay` | prove two runs are byte-identical; show which policy produced a receipt |
-| `bid eval`, `bid agreement`, `bid scale`, `bid adversarial`, `bid compare-models` | evaluation ([docs](docs/evaluation.md)) |
+| `bid eval`, `bid agreement`, `bid scale`, `bid adversarial`, `bid compare-models` | evaluation ([docs](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/evaluation.md)) |
 | `bid brand-kb` | draft brand aliases and official domains from Wikidata |
 | `bid demo-sensors`, `bid demo-enrich`, `bid demo-itunes` | run one live sensor or the public-source pivot |
 
 ## Configuration
 
-Environment variables; the full list is in [deployment](docs/deployment.md).
+Environment variables; the full list is in [deployment](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/deployment.md).
 
 | Variable | Effect |
 |---|---|
@@ -150,14 +150,14 @@ read for API keys; it never overrides a variable that is already set.
 
 | Page | Covers |
 |---|---|
-| [Architecture](docs/architecture.md) | stages, modules, runtime data layout, interfaces |
-| [Evidence format](docs/evidence-format.md) | receipt fields, hashing, chain, verification |
-| [Governance](docs/governance.md) | triage, holds, decisions, release, queue stop, settings |
-| [Deployment](docs/deployment.md) | keys, container, console access, profiles, egress, model endpoint |
-| [Projections](docs/projections.md) | report payloads from a confirmed finding |
-| [Policy packs](docs/policy-packs.md) | notice checks and evidence reports per rule or jurisdiction |
-| [Evaluation](docs/evaluation.md) | what the measurements show and what they do not |
-| [Threat model](docs/threat-model.md) | assets, boundaries, threats, controls, residual risk |
+| [Architecture](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/architecture.md) | stages, modules, runtime data layout, interfaces |
+| [Evidence format](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/evidence-format.md) | receipt fields, hashing, chain, verification |
+| [Governance](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/governance.md) | triage, holds, decisions, release, queue stop, settings |
+| [Deployment](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/deployment.md) | keys, container, console access, profiles, egress, model endpoint |
+| [Projections](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/projections.md) | report payloads from a confirmed finding |
+| [Policy packs](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/policy-packs.md) | notice checks and evidence reports per rule or jurisdiction |
+| [Evaluation](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/evaluation.md) | what the measurements show and what they do not |
+| [Threat model](https://github.com/chernistry/brand-impersonation-detector/blob/main/docs/threat-model.md) | assets, boundaries, threats, controls, residual risk |
 
 ## Limits
 
@@ -187,8 +187,8 @@ python -m pytest -q
 ruff check bid tests
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the ground rules and
-[SECURITY.md](SECURITY.md) to report a vulnerability.
+See [CONTRIBUTING.md](https://github.com/chernistry/brand-impersonation-detector/blob/main/CONTRIBUTING.md) for the ground rules and
+[SECURITY.md](https://github.com/chernistry/brand-impersonation-detector/blob/main/SECURITY.md) to report a vulnerability.
 
 ## Author
 
@@ -199,4 +199,4 @@ an open-source governance layer for AI agents.
 
 ## Licence
 
-Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+Apache License 2.0. See [LICENSE](https://github.com/chernistry/brand-impersonation-detector/blob/main/LICENSE) and [NOTICE](https://github.com/chernistry/brand-impersonation-detector/blob/main/NOTICE).

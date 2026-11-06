@@ -12,4 +12,4 @@ Design rule: sensors are cheap and swappable, the pipeline shape is fixed, and
 the evidence receipt is verifiable offline.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
