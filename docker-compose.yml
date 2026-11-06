@@ -1,0 +1,37 @@
+# Operator console on http://127.0.0.1:8000
+#
+#   for v in BID_CONSOLE_TOKEN BID_HMAC_KEY BID_ED25519_SEED BID_LEDGER_KEY; do
+#     export "$v=$(python3 -c 'import secrets; print(secrets.token_urlsafe(32))')"
+#   done   # keep these in your secret store: the keys sign every receipt
+#   docker compose up --build
+#
+# One-off pipeline run in the same image:
+#
+#   docker compose run --rm console run
+services:
+  console:
+    build: .
+    image: brand-impersonation-detector:local
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      BID_CONSOLE_TOKEN: ${BID_CONSOLE_TOKEN:?set BID_CONSOLE_TOKEN to a long random value}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      BID_LLM_BASE_URL: ${BID_LLM_BASE_URL:-}
+      BID_LLM_API_KEY: ${BID_LLM_API_KEY:-}
+      # Signing keys: the console refuses the public development values beyond loopback.
+      BID_HMAC_KEY: ${BID_HMAC_KEY:?set BID_HMAC_KEY to a long random value}
+      BID_ED25519_SEED: ${BID_ED25519_SEED:?set BID_ED25519_SEED to a long random value}
+      BID_LEDGER_KEY: ${BID_LEDGER_KEY:?set BID_LEDGER_KEY to a long random value}
+    volumes:
+      - bid-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  bid-data:

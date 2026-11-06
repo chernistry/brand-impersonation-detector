@@ -1,0 +1,9 @@
+{
+  "name": "default",
+  "egress": null,
+  "redact_pii": false,
+  "zero_retention": false,
+  "llm_base_url": null,
+  "allow_timestamp_anchor": true,
+  "notes": "Historical behaviour: unrestricted egress, no PII redaction, no zero-data-retention routing, model endpoint from BID_LLM_BASE_URL or openrouter.ai, RFC-3161 timestamp anchor allowed."
+}

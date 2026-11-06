@@ -1,0 +1,39 @@
+{
+  "id": "eu-dsa-art16",
+  "version": "1",
+  "title": "Notice to a hosting service under Article 16(2) of the Digital Services Act",
+  "kind": "notice",
+  "jurisdiction": "EU",
+  "source": "Regulation (EU) 2022/2065, Article 16(2)",
+  "review_status": "unreviewed",
+  "applies_to": "platform_ip_report",
+  "notes": "Maps the four elements a notice must contain to the fields of a platform_ip_report projection. Where the platform's form asks for the URL of the reported content on the platform itself, add it when filing; the projection carries the platform and the account identifier.",
+  "requirements": [
+    {
+      "id": "reasons",
+      "text": "A sufficiently substantiated explanation of why the information is alleged to be illegal content",
+      "supplied_by": "tool",
+      "fields": ["report_type", "description", "manifest_hash"],
+      "basis": "Art. 16(2)(a)"
+    },
+    {
+      "id": "location",
+      "text": "A clear indication of the exact electronic location of the information, and where necessary information that identifies it on the service",
+      "supplied_by": "tool",
+      "fields": ["reported_content.platform", "reported_content.platform_uid|reported_content.url"],
+      "basis": "Art. 16(2)(b)"
+    },
+    {
+      "id": "notifier",
+      "text": "The name and email address of the individual or entity submitting the notice",
+      "supplied_by": "operator",
+      "basis": "Art. 16(2)(c)"
+    },
+    {
+      "id": "good-faith-statement",
+      "text": "A statement confirming the notifier's good-faith belief that the information and allegations in the notice are accurate and complete",
+      "supplied_by": "operator",
+      "basis": "Art. 16(2)(d)"
+    }
+  ]
+}

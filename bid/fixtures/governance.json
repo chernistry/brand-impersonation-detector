@@ -1,0 +1,20 @@
+{
+  "usable_default": "Not sure? Escalate. Escalating is the expected choice when in doubt.",
+  "ask_contact": "brand-protection on-call (#brand-protection)",
+  "releasers": [
+    {
+      "id": "analyst-lead-01",
+      "authority": "brand-protection lead"
+    },
+    {
+      "id": "counsel-01",
+      "authority": "legal counsel"
+    }
+  ],
+  "stop_authority": [
+    "duty-manager-01",
+    "analyst_01"
+  ],
+  "stop_statement": "Calling stop is part of the job and is never held against the person who calls it.",
+  "hold_sla_hours": 24
+}

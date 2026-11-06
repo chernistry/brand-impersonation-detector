@@ -1,0 +1,11 @@
+brand-impersonation-detector
+Copyright 2026 Alex Chernysh
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This distribution contains no third-party source code. Runtime dependencies
+are installed separately under their own licences; docs/third-party-licenses.md
+lists them.
+
+The brands, handles, domains and logos under bid/fixtures are invented test
+data. The fixture domains use the reserved .test top-level domain.

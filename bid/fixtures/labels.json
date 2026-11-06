@@ -1,0 +1,20 @@
+{
+  "_note": "Hand-labeled ground truth for precision@k and recall. true = a brand impersonation the pipeline should surface. Keyed by Candidate.id (cand_<platform>_<platform_uid>). In a real deployment this set would be frozen and hash-anchored, seeded from analyst-confirmed findings.",
+  "labels": {
+    "cand_local_search_lorvanne_legit": false,
+    "cand_local_search_lorvanne_homoglyph": true,
+    "cand_local_search_lorvanne_support": true,
+    "cand_local_search_lorvanne_fan": false,
+    "cand_local_search_lorvanne_shoes": false,
+    "cand_meta_ads_lorvanne_promo_ad": true,
+    "cand_meta_ads_lorvanne_giveaway_ad": true,
+    "cand_meta_ads_lorvanne_rewards_ad": true,
+    "cand_meta_ads_lorvanne_national_ad": false,
+    "cand_local_search_covelle_legit": false,
+    "cand_local_search_covelle_homoglyph": true,
+    "cand_local_search_covelle_secure": true,
+    "cand_local_search_covelle_global": true,
+    "cand_local_search_covelle_cafe": false,
+    "cand_meta_ads_covelle_promo_ad": true
+  }
+}

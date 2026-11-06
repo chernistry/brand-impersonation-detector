@@ -1,0 +1,24 @@
+{
+  "id": "template",
+  "version": "0",
+  "title": "Template for a jurisdiction pack",
+  "kind": "evidence",
+  "jurisdiction": "XX",
+  "source": "Name the rule, its article and its version here",
+  "review_status": "template",
+  "notes": "Copy this file, set id, jurisdiction and source, and give each requirement the provision it comes from in basis. Requirements met by the records list metric keys in fields (see bid.packs.METRICS); requirements only the organisation can meet use supplied_by operator. Set review_status to reviewed only after counsel has reviewed the mapping.",
+  "requirements": [
+    {
+      "id": "example-tool",
+      "text": "A requirement the signed records can show",
+      "fields": ["decisions.accountable"],
+      "basis": "Article and paragraph"
+    },
+    {
+      "id": "example-operator",
+      "text": "A requirement only the organisation can meet",
+      "supplied_by": "operator",
+      "basis": "Article and paragraph"
+    }
+  ]
+}

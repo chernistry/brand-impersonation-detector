@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "brand-impersonation-detector"
+version = "0.1.0"
+description = "Self-hosted brand impersonation detection with signed, offline-verifiable evidence"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+requires-python = ">=3.11"
+authors = [{ name = "Alex Chernysh" }]
+keywords = ["brand-protection", "impersonation", "phishing", "typosquatting", "threat-intelligence", "stix", "evidence", "dsse"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+]
+dependencies = [
+    "pydantic>=2.0",
+    "httpx>=0.24",
+    "cryptography>=41.0",
+    "Pillow>=10.1",
+    "imagehash>=4.3",
+    "numpy>=1.24",
+    "tldextract>=5.0",
+    "confusable_homoglyphs>=3.3",
+    "rapidfuzz>=3.0",
+    "dnstwist>=20250130",
+    "rfc3161-client>=0.1",
+    "mmh3>=4.0",
+]
+
+[project.optional-dependencies]
+console = ["fastapi>=0.110", "uvicorn[standard]>=0.27"]
+embeddings = ["fastembed>=0.3"]
+dev = ["pytest>=7.0", "fastapi>=0.110", "httpx>=0.24"]
+
+[project.scripts]
+bid = "bid.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/chernistry/brand-impersonation-detector"
+Issues = "https://github.com/chernistry/brand-impersonation-detector/issues"
+
+[tool.setuptools.packages.find]
+include = ["bid*"]
+
+[tool.setuptools.package-data]
+bid = [
+    "fixtures/*.json",
+    "fixtures/assets/*.png",
+    "static/*.html",
+    "policy_packs/*.json",
+    "profiles/*.json",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "B"]

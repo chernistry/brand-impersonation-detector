@@ -1,0 +1,42 @@
+{
+  "lorvanne": {
+    "id": "lorvanne",
+    "name": "Lorvanne Bank",
+    "official_handles": ["lorvannebank", "lorvanne_bank"],
+    "official_logo_assets": ["assets/lorvanne_official_logo.png"],
+    "regions": ["US"],
+    "cti_brand_ref": "cti:brand:lorvanne-bank"
+  },
+  "covelle": {
+    "id": "covelle",
+    "name": "Covelle Pay",
+    "official_handles": ["covellepay", "covelle_pay"],
+    "official_logo_assets": ["assets/covelle_official_logo.png"],
+    "regions": ["US"],
+    "cti_brand_ref": "cti:brand:covelle-pay"
+  },
+  "kestovar": {
+    "id": "kestovar",
+    "name": "Kestovar Credit",
+    "official_handles": ["kestovarcredit", "kestovar"],
+    "official_logo_assets": ["assets/kestovar_official_logo.png"],
+    "regions": ["US"],
+    "cti_brand_ref": "cti:brand:kestovar-credit"
+  },
+  "tamberlyn": {
+    "id": "tamberlyn",
+    "name": "Tamberlyn Savings",
+    "official_handles": ["tamberlynsavings", "tamberlyn_savings"],
+    "official_logo_assets": ["assets/tamberlyn_official_logo.png"],
+    "regions": ["US"],
+    "cti_brand_ref": "cti:brand:tamberlyn-savings"
+  },
+  "alderine": {
+    "id": "alderine",
+    "name": "Alderine Trust",
+    "official_handles": ["alderine_trust", "trust_alderine"],
+    "official_logo_assets": ["assets/alderine_official_logo.png"],
+    "regions": ["US"],
+    "cti_brand_ref": "cti:brand:alderine-trust"
+  }
+}

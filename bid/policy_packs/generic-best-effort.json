@@ -1,0 +1,62 @@
+{
+  "id": "generic-best-effort",
+  "version": "1",
+  "title": "Record of detection and handling of brand impersonation",
+  "kind": "evidence",
+  "jurisdiction": "any",
+  "source": null,
+  "review_status": "unreviewed",
+  "notes": "A jurisdiction-neutral account of what an organisation can show about how it detected, decided on and acted against impersonation of its brand. Copy it as the starting point of a jurisdiction pack and map each requirement to the applicable rule with counsel.",
+  "requirements": [
+    {
+      "id": "detection",
+      "text": "Suspected impersonations are detected and recorded together with where they were observed",
+      "fields": ["receipts.signed", "receipts.sourced"]
+    },
+    {
+      "id": "decision",
+      "text": "Every finding has a recorded decision naming who decided, under what authority, and whether the decision was automated",
+      "fields": ["decisions.accountable", "decisions.outcomes"]
+    },
+    {
+      "id": "explanation",
+      "text": "Every decision can be traced to the model, its family and the prompt template it ran with",
+      "fields": ["model.trace"]
+    },
+    {
+      "id": "independent-check",
+      "text": "Where a second model rechecked a verdict, it came from a different model family",
+      "fields": ["model.independent_recheck"]
+    },
+    {
+      "id": "integrity",
+      "text": "Records cannot be altered without detection, and a third party can check them with a public key alone",
+      "fields": ["integrity.public_signature"]
+    },
+    {
+      "id": "timeliness",
+      "text": "Findings held for review beyond the review deadline are escalated, and the time from first sighting to decision is known",
+      "fields": ["holds.escalated", "detection.time_to_decision"]
+    },
+    {
+      "id": "reversal",
+      "text": "Reversed decisions name the person, their authority and the record they reverse",
+      "fields": ["releases.accountable"]
+    },
+    {
+      "id": "deployment-controls",
+      "text": "The data and network controls in effect when records were produced are recorded",
+      "fields": ["deployment.attested"]
+    },
+    {
+      "id": "stop-authority",
+      "text": "Named people can halt the queue, and halts are recorded",
+      "fields": ["queue.stop_authority"]
+    },
+    {
+      "id": "customer-actions",
+      "text": "Actions toward affected customers (warnings, blocks, reimbursement decisions) are recorded in the organisation's own systems",
+      "supplied_by": "operator"
+    }
+  ]
+}

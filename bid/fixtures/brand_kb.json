@@ -1,0 +1,81 @@
+{
+  "Alderine Trust": {
+    "aliases": [
+      "Alderine Trust Company",
+      "ADT"
+    ],
+    "description": "Fictional trust company (test fixture)",
+    "domains": [
+      "alderine-trust.test"
+    ],
+    "name": "Alderine Trust",
+    "qid": "FICT0001"
+  },
+  "Covelle Pay": {
+    "aliases": [
+      "Covelle Pay Holdings"
+    ],
+    "description": "Fictional payments company (test fixture)",
+    "domains": [
+      "covelle-pay.test"
+    ],
+    "name": "Covelle Pay",
+    "qid": "FICT0002"
+  },
+  "Kestovar Credit": {
+    "aliases": [
+      "Kestovar",
+      "FabCredit"
+    ],
+    "description": "Fictional credit provider (test fixture)",
+    "domains": [
+      "kestovar-credit.test",
+      "kestovarcredit.test"
+    ],
+    "name": "Kestovar Credit",
+    "qid": "FICT0003"
+  },
+  "Lorvanne Bank": {
+    "aliases": [
+      "Lorvanne Banking Group"
+    ],
+    "description": "Fictional bank (test fixture)",
+    "domains": [
+      "lorvanne-bank.test"
+    ],
+    "name": "Lorvanne Bank",
+    "qid": "FICT0004"
+  },
+  "Lorvanne Banking Group": {
+    "aliases": [],
+    "description": "Fictional bank holding (test fixture)",
+    "domains": [
+      "lorvanne-bank.test"
+    ],
+    "name": "Lorvanne Banking Group",
+    "qid": "FICT0005"
+  },
+  "Tamberlyn Savings": {
+    "aliases": [
+      "Tamberlyn-Savings",
+      "Tamberlyn Savings Bank"
+    ],
+    "description": "Fictional savings bank (test fixture)",
+    "domains": [
+      "tamberlyn-savings.test"
+    ],
+    "name": "Tamberlyn Savings",
+    "qid": "FICT0006"
+  },
+  "WrenvalePay": {
+    "aliases": [
+      "Wrenvale Pay"
+    ],
+    "description": "Fictional online payments company (test fixture)",
+    "domains": [
+      "wrenvalepay.test"
+    ],
+    "name": "WrenvalePay",
+    "qid": "FICT0007"
+  }
+}

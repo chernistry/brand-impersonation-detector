@@ -1,0 +1,10 @@
+{
+  "known_bad_registrable_domains": [
+    "lorvanne-secure.test",
+    "covelle-verify.test",
+    "kestovar-secure.test",
+    "tamberlyn-verify.test",
+    "alderine-secure.test"
+  ],
+  "_note": "Fixture stand-in for a known-bad domain feed from threat intelligence. Used as the reverse-pivot input: known-bad domain -> the social accounts and ads pointing at it."
+}

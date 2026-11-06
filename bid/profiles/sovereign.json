@@ -1,0 +1,33 @@
+{
+  "name": "sovereign",
+  "egress": {
+    "allowlist": ["tranco-list.eu"],
+    "anchor": [],
+    "asset_fetch": [],
+    "brand_kb": ["www.wikidata.org"],
+    "classifier": ["openrouter.ai"],
+    "enrich": [
+      "api.certspotter.com",
+      "api.phishstats.info",
+      "api.shodan.io",
+      "crt.sh",
+      "dns.google",
+      "isc.sans.edu",
+      "raw.githubusercontent.com",
+      "rdap.org",
+      "urlscan.io",
+      "www.spamhaus.org"
+    ],
+    "enrich:favicon": [],
+    "sensor:bluesky": ["public.api.bsky.app"],
+    "sensor:ct_logs": ["crt.sh"],
+    "sensor:itunes": ["itunes.apple.com"],
+    "sensor:meta_ad_library": ["graph.facebook.com"],
+    "sensor:username_enum": []
+  },
+  "redact_pii": true,
+  "zero_retention": true,
+  "llm_base_url": null,
+  "allow_timestamp_anchor": false,
+  "notes": "To use a self-hosted model endpoint instead of openrouter.ai, set llm_base_url to it and replace openrouter.ai under classifier with that endpoint's host. Username enumeration, asset downloads, favicon fetches and the timestamp anchor have empty lists and are denied. rdap.org answers by redirecting to the registry's own RDAP server, which is not listed, so RDAP lookups are refused at the redirect hop."
+}

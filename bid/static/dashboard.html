@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Impersonation Detection Console</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --border:#30363d; --text:#e6edf3;
+    --muted:#8b949e; --accent:#2f81f7;
+    --fraud:#f85149; --imp:#db6d28; --susp:#d29922; --legit:#3fb950; --fan:#8b949e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  header{display:flex;align-items:center;gap:16px;padding:14px 22px;border-bottom:1px solid var(--border);background:var(--panel);position:sticky;top:0;z-index:5;flex-wrap:wrap}
+  header h1{font-size:16px;margin:0;font-weight:650}
+  header .sub{color:var(--muted);font-size:12px}
+  .spacer{flex:1}
+  label.tog{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:12px;cursor:pointer;user-select:none}
+  button{background:var(--accent);color:#fff;border:0;border-radius:7px;padding:8px 14px;font-weight:600;cursor:pointer;font-size:13px}
+  button.ghost{background:var(--panel2);color:var(--text);border:1px solid var(--border)}
+  button.stop{background:rgba(248,81,73,.18);color:var(--fraud);border:1px solid var(--fraud)}
+  button:disabled{opacity:.5;cursor:default}
+  main{padding:20px 22px;max-width:1200px;margin:0 auto}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+  .stat .v{font-size:22px;font-weight:700}
+  .stat .k{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+  .grid{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
+  .card h2{font-size:13px;margin:0 0 12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .brand{font-weight:650;margin:14px 0 8px;font-size:13px}
+  .brand .dom{color:var(--muted);font-weight:400;font-size:12px}
+  .cand{border:1px solid var(--border);border-radius:9px;padding:10px 12px;margin-bottom:8px;background:var(--panel2)}
+  .cand .row1{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase}
+  .b-fraud{background:rgba(248,81,73,.15);color:var(--fraud)}
+  .b-impersonation{background:rgba(219,109,40,.15);color:var(--imp)}
+  .b-suspicious{background:rgba(210,153,34,.15);color:var(--susp)}
+  .b-legit{background:rgba(63,185,80,.15);color:var(--legit)}
+  .b-fan{background:rgba(139,148,158,.15);color:var(--fan)}
+  .r-confirm{background:rgba(219,109,40,.12);color:var(--imp);border:1px solid var(--imp)}
+  .r-reject{background:rgba(63,185,80,.10);color:var(--legit);border:1px solid var(--legit)}
+  .r-escalate{background:rgba(210,153,34,.12);color:var(--susp);border:1px solid var(--susp)}
+  .r-release{background:rgba(47,129,247,.12);color:var(--accent);border:1px solid var(--accent)}
+  .handle{font-weight:600}
+  .conf{margin-left:auto;font-size:12px;color:var(--muted)}
+  .meta{color:var(--muted);font-size:12px;margin-top:3px;word-break:break-word}
+  .trace{color:var(--muted);font-size:11px;margin-top:6px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-word}
+  .chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+  .chip{font-size:10.5px;padding:2px 7px;border-radius:6px;background:#0d1117;border:1px solid var(--border);color:var(--muted)}
+  .chip.hot{border-color:var(--imp);color:var(--imp)}
+  .chip.inj{border-color:var(--fraud);color:var(--fraud)}
+  .reason{font-size:11.5px;color:var(--muted);margin-top:6px;font-style:italic}
+  .logos{display:flex;gap:14px;margin:8px 0}
+  .logo{text-align:center}
+  .logo img{width:56px;height:56px;border-radius:8px;border:1px solid var(--border);object-fit:cover;background:#fff}
+  .lgl{font-size:10px;color:var(--muted);margin-top:2px}
+  .acts{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+  button.sm{padding:4px 10px;font-size:12px}
+  select{background:#0d1117;border:1px solid var(--border);color:var(--text);border-radius:7px;padding:4px 8px;font-size:12px}
+  .dres{font-size:11px;color:var(--muted);flex-basis:100%}
+  .kv{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
+  .kv:last-child{border:0}
+  .ok{color:var(--legit);font-weight:600}
+  .bad{color:var(--fraud);font-weight:600}
+  .sensors{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .sensor{font-size:11px;padding:4px 9px;border-radius:7px;background:var(--panel);border:1px solid var(--border);color:var(--muted)}
+  input[type=text],input[type=password]{background:#0d1117;border:1px solid var(--border);color:var(--text);border-radius:7px;padding:7px 10px;width:100%;font-size:13px}
+  header input[type=text],header input[type=password]{width:170px;padding:5px 8px;font-size:12px}
+  pre{background:#0d1117;border:1px solid var(--border);border-radius:8px;padding:10px;font-size:11.5px;overflow:auto;max-height:260px;white-space:pre-wrap;word-break:break-word}
+  .foot{color:var(--muted);font-size:11px;margin:24px 0;line-height:1.6;border-top:1px solid var(--border);padding-top:14px}
+  .pill{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+  .muted{color:var(--muted)}
+  .loading{color:var(--accent)}
+  .flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 16px;padding:9px 12px;background:var(--panel);border:1px solid var(--border);border-radius:10px}
+  .flow .fl{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--text);background:var(--panel2);border:1px solid var(--border);border-radius:20px;padding:4px 11px}
+  .flow .fl .n{background:var(--accent);color:#fff;font-weight:700;font-size:10px;width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center}
+  .flow .arw{color:var(--muted);font-size:13px}
+  .flow .fll{color:var(--muted);font-size:11px;margin-left:auto}
+  .opline{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:12px 0 4px;border-top:1px solid var(--border);padding-top:10px}
+  .default{font-size:14px;font-weight:600;margin-bottom:4px}
+  .halted{display:none;background:rgba(248,81,73,.12);border:1px solid var(--fraud);color:var(--fraud);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-weight:600}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Impersonation Detection Console</h1>
+    <div class="sub">brand-impersonation detection → a signed receipt for every decision</div>
+  </div>
+  <div class="spacer"></div>
+  <label class="tog" title="Every decision is recorded under this id">Acting as <input type="text" id="actor" value="analyst_01"/></label>
+  <label class="tog"><input type="checkbox" id="live"/> Live model</label>
+  <label class="tog"><input type="checkbox" id="emb"/> Embeddings (CLIP)</label>
+  <label class="tog" title="Attach real keyless internet sensors: Apple App Store + look-alike domains + Certificate Transparency. Social ingestion stays a fixture sensor."><input type="checkbox" id="broad"/> Broad live sensors</label>
+  <button id="run">▶ Run pipeline</button>
+  <span id="status" class="muted"></span>
+  <span id="auth" style="display:none;align-items:center;gap:6px">
+    <input type="password" id="token" placeholder="console access token" autocomplete="current-password"/>
+    <button class="ghost" id="signin">Sign in</button>
+    <span id="authmsg" class="bad"></span>
+  </span>
+</header>
+
+<main>
+  <div class="halted" id="halted"></div>
+
+  <div class="flow" title="Pipeline stages">
+    <span class="fl"><span class="n">1</span>Sensors</span>
+    <span class="arw">&rarr;</span>
+    <span class="fl"><span class="n">2</span>Filters + classify</span>
+    <span class="arw">&rarr;</span>
+    <span class="fl"><span class="n">3</span>Triage + analyst decision</span>
+    <span class="arw">&rarr;</span>
+    <span class="fl"><span class="n">4</span>Signed receipt</span>
+    <span class="fll">every confirm, reject, escalation and release is signed the same way</span>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="sensors" id="sensors"></div>
+  <div id="discovery" class="muted" style="font-size:11.5px;margin:-6px 0 14px">Sensors: default offline fixtures. Social-network ingestion is a fixture sensor; enable “Broad live sensors” for live App Store + look-alike domains + CT.</div>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2>Analyst queue (the model ranks · a person decides)</h2>
+        <div id="queue"><div class="muted">Press “Run pipeline” to detect impersonations.</div></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" id="govcard">
+        <h2>When you are not sure</h2>
+        <div id="gov" class="muted">Loading the governance settings…</div>
+      </div>
+
+      <div class="card">
+        <h2>Signed evidence receipt</h2>
+        <div id="evsummary" class="muted">Run the pipeline to produce signed receipts.</div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="ghost" id="verify">✔ Verify (public key, no secret)</button>
+          <button class="ghost" id="tamper">⚠ Tamper test</button>
+        </div>
+        <pre id="evout" style="margin-top:10px;display:none"></pre>
+      </div>
+
+      <div class="card">
+        <h2>OSINT reverse-pivot (keyless)</h2>
+        <div class="muted" style="font-size:12px;margin-bottom:8px">Seed a suspect domain → sibling infra + campaign signals (crt.sh · dns · urlscan).</div>
+        <input type="text" id="domain" value="wrenvalepay.test" placeholder="suspect-domain.com"/>
+        <button class="ghost" id="pivot" style="margin-top:8px">🔎 Reverse-pivot</button>
+        <div id="pivout" style="margin-top:10px"></div>
+      </div>
+
+      <div class="card">
+        <h2>Label ledger · threshold calibration</h2>
+        <div class="muted" style="font-size:12px;margin-bottom:8px">Analyst confirms and rejects go into an HMAC-chained label ledger. Thresholds are recalibrated from those labels, and every threshold set is versioned. The operating point marks which findings clear the calibrated threshold; it never changes a signed decision.</div>
+        <div id="fbsummary" class="muted">Confirm or reject a candidate to grow the label ledger.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot" id="foot"></div>
+</main>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const el = (t,c)=>{const e=document.createElement(t); if(c) e.className=c; return e;};
+const txt = (t,c,s)=>{const e=el(t,c); e.textContent = s==null?"":String(s); return e;}; // XSS-safe
+const actor = ()=> ($("#actor").value||"").trim();
+
+// Every API call goes through here. When the console runs with BID_CONSOLE_TOKEN,
+// a 401 shows the sign-in box; every pending call waits for one sign-in, which
+// exchanges the token for an HttpOnly session cookie. The page never stores the token.
+let signedIn=null;
+function login(){
+  if(!signedIn){
+    signedIn=new Promise(resolve=>{
+      const box=$("#auth"), msg=$("#authmsg"), field=$("#token");
+      box.style.display="inline-flex"; field.focus();
+      const submit=async()=>{
+        const r=await fetch("/api/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:field.value})});
+        if(!r.ok){ msg.textContent="wrong token"; return; }
+        field.value=""; msg.textContent=""; box.style.display="none"; signedIn=null; resolve();
+      };
+      $("#signin").onclick=submit;
+      field.onkeydown=e=>{ if(e.key==="Enter") submit(); };
+    });
+  }
+  return signedIn;
+}
+async function api(url, body){
+  const opts = body===undefined ? {} : {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)};
+  let r = await fetch(url, opts);
+  if(r.status===401){ await login(); r = await fetch(url, opts); }
+  return r.json();
+}
+
+function stat(k,v){ const d=el("div","stat"); d.appendChild(txt("div","v",v)); d.appendChild(txt("div","k",k)); return d; }
+
+function renderStats(m){
+  const s=$("#stats"); s.innerHTML="";
+  s.appendChild(stat("precision@5", m.precision_at_5.toFixed(2)));
+  s.appendChild(stat("recall", m.recall.toFixed(2)));
+  s.appendChild(stat("candidates", m.candidates));
+  s.appendChild(stat("filtered out", m.dropped+" ("+Math.round(m.cut_ratio*100)+"%)"));
+  s.appendChild(stat("signed receipts", m.packages));
+  s.appendChild(stat("open holds", m.open_holds));
+  s.appendChild(stat("injections seen", m.injection_seen));
+  s.appendChild(stat("cost (USD)", m.cost_usd.toFixed(5)));
+}
+
+function renderSensors(sensors, cls){
+  const c=$("#sensors"); c.innerHTML="";
+  c.appendChild(txt("span","sensor","classifier: "+cls));
+  sensors.forEach(h=>{
+    const e=el("span","sensor");
+    const p=el("span","pill"); p.style.background = h.error_rate>0? "var(--fraud)":"var(--legit)";
+    e.appendChild(p); e.appendChild(document.createTextNode(h.sensor+" · "+(h.mode||"")));
+    c.appendChild(e);
+  });
+}
+
+function chip(text, hot){ return txt("span","chip"+(hot?" "+hot:""), text); }
+
+function receiptBadge(rc){
+  if(!rc) return txt("span","badge","no receipt");
+  const who = rc.automated ? "policy" : rc.decided_by;
+  return txt("span","badge r-"+rc.outcome, rc.outcome+" · "+who);
+}
+
+const PROJECTIONS = ["all","finding","platform_ip_report","registrar_abuse","fraud_desk","stix"];
+
+function renderCard(c, b, card){
+  card.innerHTML="";
+  const r1=el("div","row1");
+  r1.appendChild(txt("span","badge b-"+c.label, c.label));
+  r1.appendChild(txt("span","handle", "@"+(c.handle||"?")));
+  r1.appendChild(receiptBadge(c.receipt));
+  r1.appendChild(txt("span","conf", "conf "+c.confidence.toFixed(2)));
+  card.appendChild(r1);
+  // side-by-side visual comparison - img src only, XSS-safe
+  if(c.asset || c.official_asset){
+    const lg=el("div","logos");
+    const mkimg=(src,lbl)=>{const w=el("div","logo"); if(src){const im=el("img"); im.src=src; im.alt=""; w.appendChild(im);} w.appendChild(txt("div","lgl",lbl)); return w;};
+    lg.appendChild(mkimg(c.asset,"suspect"));
+    lg.appendChild(mkimg(c.official_asset,"official"));
+    card.appendChild(lg);
+  }
+  if(c.display_name) card.appendChild(txt("div","meta", c.display_name));
+  if(c.bio) card.appendChild(txt("div","meta", c.bio));           // textContent = XSS-safe
+  if(c.link) card.appendChild(txt("div","meta", "↳ "+c.link));
+  const chips=el("div","chips"); const s=c.signals;
+  if(c.fused_score!=null) chips.appendChild(chip("fused "+c.fused_score.toFixed(2)+(c.calibrated_band==="above_threshold"?" ≥ op":"")));
+  if(c.uncertainty!=null && c.uncertainty>=0.4) chips.appendChild(chip("★ review first "+c.uncertainty.toFixed(2),"hot"));
+  if(s.handle_edit_distance!=null) chips.appendChild(chip("handle Δ"+s.handle_edit_distance, s.handle_edit_distance<=2?"hot":null));
+  if(s.mixed_script_handle) chips.appendChild(chip("homoglyph","hot"));
+  if(s.logo_phash_hamming!=null) chips.appendChild(chip("pHash "+s.logo_phash_hamming+"b", s.logo_phash_hamming<=13?"hot":null));
+  if(s.logo_clip_cosine!=null) chips.appendChild(chip("CLIP "+s.logo_clip_cosine.toFixed(2), s.logo_clip_cosine>=0.9?"hot":null));
+  if(s.domain_intention_mismatch) chips.appendChild(chip("brand≠domain","hot"));
+  if(s.alias_in_text) chips.appendChild(chip("alias-in-text"));
+  if(s.domain_in_cti_badlist) chips.appendChild(chip("CTI bad-domain","hot"));
+  if(c.injection_flagged) chips.appendChild(chip("⚠ injection","inj"));
+  if(c.recheck) chips.appendChild(chip("recheck "+c.recheck.family+": "+c.recheck.label+(c.recheck.agrees?" ✓":" ✗ disagrees"), c.recheck.agrees?null:"hot"));
+  card.appendChild(chips);
+  if(c.reasoning) card.appendChild(txt("div","reason", c.reasoning));
+  // The prompt is a governance decision too: its version sits next to the model's.
+  const m=c.model||{};
+  card.appendChild(txt("div","trace","model "+(m.id||"?")+" ("+(m.family||"?")+") · prompt "+(m.prompt_template||"n/a")));
+  if(c.receipt){
+    card.appendChild(txt("div","trace","receipt "+c.receipt.manifest_hash+" · "+c.receipt.outcome+" by "+c.receipt.decided_by+" ("+(c.receipt.authority||"no authority")+") · "+c.receipt.created_at));
+    if(c.receipt.automated && c.triage_reason) card.appendChild(txt("div","reason","triage: "+c.triage_reason));
+  }
+
+  const acts=el("div","acts");
+  const res=txt("span","dres","");
+  const personConfirmed = c.receipt && c.receipt.outcome==="confirm" && !c.receipt.automated;
+  const decide=(dec)=>async()=>{
+    res.className="dres"; res.textContent="signing…";
+    const r=await api("/api/decide",{candidate_id:c.candidate_id,decision:dec,analyst_id:actor()});
+    if(r.error){ res.className="dres bad"; res.textContent=r.error; return; }
+    c.receipt=r.receipt; renderCard(c,b,card);
+    const nr=card.querySelector(".dres");
+    nr.className="dres "+(r.chain.pub_ok?"ok":"bad");
+    nr.textContent=dec+" signed · receipt "+r.receipt.manifest_hash+" · position "+(r.chain.index+1)+" of "+r.chain.length+(r.chain.pub_ok?" · chain verifies with the public key":" · CHAIN FAILED: "+r.chain.pub_reason);
+    refreshFeedback(); refreshGovernance(); refreshRun(false);
+  };
+  const mk=(label,dec)=>{const bt=txt("button","ghost sm",label); bt.onclick=decide(dec); acts.appendChild(bt); return bt;};
+  if(!personConfirmed){ mk("✓ Confirm","confirm"); mk("✗ Reject","reject"); mk("⇧ Escalate","escalate"); }
+  if(personConfirmed){
+    const rb=txt("button","ghost sm","↺ Release");
+    rb.title="Reverse this confirm. Only declared releasers can release; the receipt names the confirm it reverses.";
+    rb.onclick=async()=>{
+      const reason=window.prompt("Reason for the release (recorded in the signed receipt):");
+      if(!reason) return;
+      const r=await api("/api/release",{candidate_id:c.candidate_id,actor:actor(),reason});
+      if(r.error){ res.className="dres bad"; res.textContent=r.error; return; }
+      c.receipt=r.receipt; renderCard(c,b,card); refreshGovernance(); refreshRun(false);
+    };
+    acts.appendChild(rb);
+  }
+  const sel=el("select"); PROJECTIONS.forEach(k=>{const o=el("option"); o.value=k; o.textContent=k; sel.appendChild(o);});
+  const bx=txt("button","ghost sm","Export");
+  bx.title="Report payloads projected from the signed receipt; confirmed findings only. Nothing is sent.";
+  bx.onclick=async()=>{
+    const r=await api("/api/project/"+encodeURIComponent(c.candidate_id)+"?kind="+encodeURIComponent(sel.value));
+    const pre=el("pre"); pre.className="proj"; pre.style.marginTop="8px";
+    pre.textContent = r.error ? ("export: "+r.error) : JSON.stringify(r.projection,null,1);
+    const old=card.querySelector("pre.proj"); if(old) old.remove(); card.appendChild(pre);
+  };
+  acts.appendChild(sel); acts.appendChild(bx); acts.appendChild(res);
+  card.appendChild(acts);
+}
+
+function renderQueue(brands){
+  const q=$("#queue"); q.innerHTML="";
+  brands.forEach(b=>{
+    const bh=el("div","brand");
+    bh.appendChild(document.createTextNode(b.name+"  "));
+    bh.appendChild(txt("span","dom", "official: @"+b.official_handles.join(" @")+"  ·  "+(b.official_domains.join(", ")||"—")));
+    q.appendChild(bh);
+    b.queue.forEach(c=>{ const card=el("div","cand"); renderCard(c,b,card); q.appendChild(card); });
+  });
+}
+
+async function refreshGovernance(){
+  const d=$("#gov");
+  let g;
+  try{ g=await api("/api/governance"); }catch(e){ d.className="bad"; d.textContent="governance: "+e; return; }
+  d.className=""; d.innerHTML="";
+  const who=$("#actor");
+  if(g.actor_header){ who.value=g.actor||""; who.readOnly=true; who.title="from your sign-in ("+g.actor_header+")"; }
+  d.appendChild(txt("div","default", g.usable_default));
+  d.appendChild(txt("div","meta", g.ask_contact ? ("Ask: "+g.ask_contact) : "No contact configured (set ask_contact in governance.json)."));
+  d.appendChild(txt("div","opline","Stop the queue"));
+  d.appendChild(txt("div","meta", g.stop_statement));
+  d.appendChild(txt("div","meta", "Can stop: "+(g.stop_authority.join(", ")||"nobody configured")));
+  const bar=el("div","acts");
+  const res=txt("span","dres","");
+  const act=(kind)=>async()=>{
+    const reason = kind==="halt" ? (window.prompt("Why are you stopping the queue? (optional)")||"") : (window.prompt("Reason for resuming (optional)")||"");
+    const r=await api("/api/"+kind,{actor:actor(),reason});
+    if(r.error){ res.className="dres bad"; res.textContent=r.error; return; }
+    refreshGovernance();
+  };
+  if(g.halted){ const bt=txt("button","ghost sm","▶ Resume"); bt.onclick=act("resume"); bar.appendChild(bt); }
+  else { const bt=txt("button","stop sm","■ Stop the queue"); bt.onclick=act("halt"); bar.appendChild(bt); }
+  bar.appendChild(res); d.appendChild(bar);
+  d.appendChild(txt("div","opline","Holds"));
+  const kv=(k,v,cls)=>{const row=el("div","kv"); row.appendChild(txt("span",null,k)); row.appendChild(txt("span",cls||"muted",v)); d.appendChild(row);};
+  kv("open holds (wait for a person)", g.open_holds.length);
+  kv("past the "+g.hold_sla_hours+" h review deadline", g.overdue_holds.length, g.overdue_holds.length?"bad":"muted");
+  kv("releasers", g.releasers.join(", ")||"none configured");
+  kv("governance journal", g.journal_ok?"verifies":"FAILS: "+g.journal_reason, g.journal_ok?"ok":"bad");
+  kv("settings from", g.config_source);
+  const h=$("#halted");
+  if(g.halted){ h.style.display="block"; h.textContent="■ The queue is stopped"+(g.halted_by?(" by "+g.halted_by):"")+(g.halt_reason?(": "+g.halt_reason):"")+". No automated decisions and no exports until someone with stop authority resumes it. Analysts can still record decisions."; }
+  else { h.style.display="none"; }
+}
+
+async function refreshFeedback(){
+  const d=$("#fbsummary");
+  try{
+    const r=await api("/api/feedback");
+    const st=r.stats||{total:0};
+    d.className=""; d.innerHTML="";
+    const mk=(k,v,cls)=>{const row=el("div","kv"); row.appendChild(txt("span",null,k)); row.appendChild(txt("span",cls||"muted",v)); d.appendChild(row);};
+    if(!st.total){
+      d.appendChild(txt("div","meta","Confirm or reject a candidate to grow the label ledger."));
+    } else {
+      mk("labels in ledger", st.total);
+      mk("confirms / rejects", st.confirms+" / "+st.rejects);
+      mk("model↔analyst disagreements", st.model_analyst_disagreements);
+      mk("ledger integrity", r.chain_ok?"PASS":"FAIL", r.chain_ok?"ok":"bad");
+      const rc=r.recalibration;
+      if(rc && rc.decision_threshold!=null){
+        mk("recalibrated threshold", rc.decision_threshold);
+        if(rc.achieved) mk("→ precision / recall", rc.achieved.precision+" / "+rc.achieved.recall);
+        if(rc.version_hash) mk("config version", rc.version_hash);
+      } else {
+        d.appendChild(txt("div","meta","Need both a confirm and a reject to recalibrate a threshold."));
+      }
+    }
+    const op=r.operating_point||{};
+    d.appendChild(txt("div","opline","Operating point"));
+    mk("threshold", op.decision_threshold!=null?op.decision_threshold:"—");
+    mk("applied", op.applied?"yes":"no", op.applied?"ok":"muted");
+    mk("config version", op.version_hash||"—");
+    mk("labels used", op.n_labels!=null?op.n_labels:"—");
+    const bar=el("div","acts");
+    const ab=txt("button","ghost sm","Apply recalibration");
+    const ares=txt("span","dres","");
+    ab.onclick=async()=>{
+      ab.disabled=true; ares.className="dres"; ares.textContent="applying…";
+      let rr;
+      try{ rr=await api("/api/apply_recalibration",{}); }
+      catch(e){ ares.className="dres bad"; ares.textContent="error: "+e; ab.disabled=false; return; }
+      await refreshFeedback();
+      const host=$("#fbsummary");
+      if(rr.applied){
+        const a=rr.achieved||{};
+        host.appendChild(txt("div","dres "+(rr.met_target?"ok":"muted"),
+          "applied · threshold "+rr.decision_threshold+" · achieved precision "+a.precision+" / recall "+a.recall+(a.f1!=null?(" · F1 "+a.f1):"")));
+        if(!rr.met_target) host.appendChild(txt("div","meta","fell back to best-F1; needs more analyst labels"));
+      } else {
+        host.appendChild(txt("div","dres bad", rr.reason||"not applied"));
+      }
+    };
+    bar.appendChild(ab); bar.appendChild(ares); d.appendChild(bar);
+  }catch(e){ d.className="bad"; d.textContent="feedback error: "+e; }
+}
+
+function renderEvidence(ev){
+  const d=$("#evsummary"); d.innerHTML="";
+  const mk=(k,ok)=>{const r=el("div","kv"); r.appendChild(txt("span",null,k)); r.appendChild(txt("span",ok?"ok":"bad", ok?"PASS":"FAIL")); d.appendChild(r); };
+  mk("HMAC chain (internal secret)", ev.chain_ok);
+  mk("Public-key verify (no shared secret)", ev.pub_ok);
+  const kv=(k,v)=>{const r=el("div","kv"); r.appendChild(txt("span",null,k)); r.appendChild(txt("span","muted",v)); d.appendChild(r);};
+  const bo=ev.by_outcome||{};
+  kv("latest receipts", Object.entries(bo).map(([k,v])=>k+" "+v).join(" · "));
+  kv("triage policy", ev.triage_policy||"—");
+  if(ev.sample){
+    kv("sample receipt", ev.sample.candidate_id+" ("+ev.sample.outcome+")");
+    if(ev.sample.policy_version) kv("policy version (replayable)", ev.sample.policy_version);
+  }
+}
+
+function renderRun(data, full){
+  renderStats(data.metrics); renderEvidence(data.evidence);
+  if(!full) return;
+  renderSensors(data.sensors, data.classifier); renderQueue(data.brands);
+  const m=data.mode||{};
+  $("#discovery").textContent = "Run "+data.run_id+" · sensors: "+(m.discovery_mode||"")+" · "+(m.live_sensors||0)+" live sensor(s)";
+}
+
+// The run on disk is the source of truth: restore it on load, refresh counts after a decision.
+async function refreshRun(full){
+  try{ const data=await api("/api/run"); if(!data.error) renderRun(data, full); }catch(e){ /* no run yet */ }
+}
+
+$("#run").onclick = async ()=>{
+  $("#run").disabled=true; $("#status").className="loading"; $("#status").textContent="running…";
+  try{
+    const t0=performance.now();
+    const data = await api("/api/run",{live:$("#live").checked, embeddings:$("#emb").checked, broad:$("#broad").checked});
+    if(data.error){ throw new Error(data.error); }
+    renderRun(data, true);
+    refreshFeedback(); refreshGovernance();
+    const m=data.mode||{};
+    if(m.live_requested && !m.live_effective){
+      $("#status").className="bad"; $("#status").textContent="⚠ Live requested but no API key: the rule-based classifier ran (no model call)";
+    } else {
+      $("#status").className="muted"; $("#status").textContent = (m.live_effective?"live model · ":"")+(m.broad?"broad sensors · ":"")+"done in "+Math.round(performance.now()-t0)+"ms";
+    }
+  }catch(e){ $("#status").className="bad"; $("#status").textContent="error: "+e.message; }
+  $("#run").disabled=false;
+};
+
+$("#verify").onclick = async ()=>{
+  const r = await api("/api/verify",{}); const out=$("#evout"); out.style.display="block";
+  out.textContent = (r.ok?"✔ VERIFIED":"✘ REJECTED")+"  (shared secret used: "+r.shared_secret_used+")\n"+r.reason+
+    (r.signed_at?("\nsigned at "+r.signed_at+" · "+r.candidate_id):"");
+};
+$("#tamper").onclick = async ()=>{
+  const r = await api("/api/tamper",{}); const out=$("#evout"); out.style.display="block";
+  out.textContent = r.detected? ("✔ TAMPER DETECTED (verify correctly FAILED)\n"+r.reason) : ("✘ tamper NOT detected\n"+r.reason);
+};
+
+$("#pivot").onclick = async ()=>{
+  const dom=$("#domain").value.trim(); if(!dom) return;
+  const out=$("#pivout"); out.innerHTML=""; out.appendChild(txt("div","loading","pivoting "+dom+" … (keyless OSINT, best-effort)"));
+  const r = await api("/api/enrich",{domain:dom});
+  out.innerHTML="";
+  if(r.error){ out.appendChild(txt("div","bad", r.error)); return; }
+  const rel={}; (r.edges||[]).forEach(e=>{rel[e[2]]=(rel[e[2]]||0)+1;});
+  out.appendChild(txt("div","meta","seed "+r.seed+" · nodes "+r.node_count+" · edges "+(r.edges||[]).length));
+  const ta=el("div","chips");
+  if(r.registered) ta.appendChild(chip("registered "+String(r.registered).slice(0,10)));
+  if(r.registrar) ta.appendChild(chip("registrar: "+String(r.registrar).slice(0,24)));
+  Object.values(r.asn||{}).forEach(a=>{ if(a && a.asn) ta.appendChild(chip("AS"+a.asn+(a.cc?(" "+a.cc):""))); });
+  if((r.openphish_hits||[]).length) ta.appendChild(chip("⚠ OpenPhish ×"+r.openphish_hits.length,"inj"));
+  out.appendChild(ta);
+  const ch=el("div","chips"); Object.entries(rel).forEach(([k,v])=>ch.appendChild(chip(k+" ×"+v))); out.appendChild(ch);
+  if(r.urlscan_observed && r.urlscan_observed.length){
+    out.appendChild(txt("div","meta","urlscan observed (real scans):"));
+    const pre=el("pre"); pre.textContent = r.urlscan_observed.slice(0,6).map(o=>(o.url||"")+"  ["+(o.ip||"?")+"]").join("\n"); out.appendChild(pre);
+  }
+  if(r.shared_ip_clusters && Object.keys(r.shared_ip_clusters).length){
+    out.appendChild(txt("div","meta","shared-IP clusters:"));
+    const pre=el("pre"); pre.textContent = Object.entries(r.shared_ip_clusters).slice(0,5).map(([ip,ds])=>ip+": "+ds.join(", ")).join("\n"); out.appendChild(pre);
+  }
+};
+
+// One call at a time on load: the first 401 shows the sign-in box, the rest wait.
+(async()=>{ await refreshGovernance(); await refreshFeedback(); await refreshRun(true); })();
+
+$("#foot").textContent = "Limitations: metrics are on synthetic fixtures, not production numbers. With the rule-based classifier, the classifier and the ground-truth labels derive from the same deterministic signals, so 1.00/1.00 is fixture self-consistency by construction, not measured accuracy; toggle Live model for a real-model measurement on the same fixtures. Unlabeled candidates from broad live sensors are triaged but excluded from precision/recall. The adversarial result is a floor (not tested against adaptive attacks). Receipts are tamper-evident and verifiable offline with a public key; that is not a claim of admissibility in any proceeding. Keyless OSINT sources are best-effort and rate-limited. Exports are payloads for an operator to review and file; the console sends nothing.";
+</script>
+</body>
+</html>

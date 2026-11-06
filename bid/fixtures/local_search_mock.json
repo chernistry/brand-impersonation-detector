@@ -1,0 +1,118 @@
+{
+  "lorvanne": [
+    {
+      "observed_at": "2026-07-01T09:00:00+00:00",
+      "platform": "local_search",
+      "platform_uid": "lorvanne_legit",
+      "payload": {
+        "handle": "lorvannebank",
+        "display_name": "Lorvanne Bank",
+        "bio": "Official verified account of Lorvanne Bank. Customer service via our app."
+      },
+      "asset_urls": ["assets/lorvanne_official_logo.png"]
+    },
+    {
+      "observed_at": "2026-07-01T09:01:00+00:00",
+      "platform": "local_search",
+      "platform_uid": "lorvanne_homoglyph",
+      "payload": {
+        "handle": "l0rvanne_bank",
+        "display_name": "Lorvanne Bank US",
+        "bio": "24/7 support. DM us your account number to unlock your card."
+      },
+      "asset_urls": ["assets/lorvanne_fake1_logo.png"]
+    },
+    {
+      "observed_at": "2026-07-01T09:02:00+00:00",
+      "platform": "local_search",
+      "platform_uid": "lorvanne_support",
+      "payload": {
+        "handle": "lorvannebank-support",
+        "display_name": "Lorvanne Bank Support",
+        "bio": "Verify your identity here to avoid suspension.",
+        "link_in_bio_url": "https://lorvanne-secure.test/login"
+      },
+      "asset_urls": ["assets/lorvanne_fake2_logo.png"]
+    },
+    {
+      "observed_at": "2026-07-01T09:03:00+00:00",
+      "platform": "local_search",
+      "platform_uid": "lorvanne_fan",
+      "payload": {
+        "handle": "lorvannebankfans",
+        "display_name": "Lorvanne Bank Fans",
+        "bio": "Unofficial fan account. We are not affiliated with the bank."
+      },
+      "asset_urls": ["assets/lorvanne_fan_logo.png"]
+    },
+    {
+      "observed_at": "2026-07-01T09:04:00+00:00",
+      "platform": "local_search",
+      "platform_uid": "lorvanne_shoes",
+      "payload": {
+        "handle": "lorvanneshoes",
+        "display_name": "Lorvanne Shoes Outlet",
+        "bio": "Cheapest sneakers in town. Free shipping."
+      },
+      "asset_urls": ["assets/shoes_logo.png"]
+    }
+  ],
+  "covelle": [
+    {
+      "observed_at": "2026-07-01T09:10:00+00:00",
+      "platform": "local_search",
+      "platform_uid": "covelle_legit",
+      "payload": {
+        "handle": "covellepay",
+        "display_name": "Covelle Pay",
+        "bio": "Official account of Covelle Pay."
+      },
+      "asset_urls": ["assets/covelle_official_logo.png"]
+    },
+    {
+      "observed_at": "2026-07-01T09:11:00+00:00",
+      "platform": "local_search",
+      "platform_uid": "covelle_homoglyph",
+      "payload": {
+        "handle": "c0ntosopay",
+        "display_name": "Covelle Pay Online",
+        "bio": "Verify your account to keep it active."
+      },
+      "asset_urls": ["assets/covelle_fake1_logo.png"]
+    },
+    {
+      "observed_at": "2026-07-01T09:12:00+00:00",
+      "platform": "local_search",
+      "platform_uid": "covelle_secure",
+      "payload": {
+        "handle": "covellepay-secure",
+        "display_name": "Covelle Pay Secure",
+        "bio": "Security team. Confirm your card details.",
+        "link_in_bio_url": "https://covelle-verify.test/secure"
+      },
+      "asset_urls": ["assets/covelle_fake2_logo.png"]
+    },
+    {
+      "observed_at": "2026-07-01T09:13:00+00:00",
+      "platform": "local_search",
+      "platform_uid": "covelle_global",
+      "payload": {
+        "handle": "covellepay_global",
+        "display_name": "Covelle Pay Global",
+        "bio": "Official support line, message us to reactivate."
+      },
+      "asset_urls": ["assets/covelle_fake2_logo.png"]
+    },
+    {
+      "observed_at": "2026-07-01T09:14:00+00:00",
+      "platform": "local_search",
+      "platform_uid": "covelle_cafe",
+      "payload": {
+        "handle": "harborlightcafe",
+        "display_name": "Harbor Light Cafe",
+        "bio": "Fresh coffee and pastries downtown."
+      },
+      "asset_urls": ["assets/covelle_unrelated_logo.png"]
+    }
+  ]
+}
