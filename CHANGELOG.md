@@ -5,7 +5,7 @@ All notable changes to this project are recorded here. Versions follow
 `bid.governance/v1`, `bid.projection.<kind>/v1`, ...) change only with a
 recorded entry.
 
-## 0.1.0 (unreleased)
+## 0.1.0 (2026-11-06)
 
 First public version.
 
