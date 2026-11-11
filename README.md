@@ -1,5 +1,7 @@
 # Brand impersonation detector
 
+<a href="https://github.com/sipyourdrink-ltd/bernstein"><img src="https://raw.githubusercontent.com/chernistry/brand-impersonation-detector/main/assets/built-with-bernstein.svg" alt="built with Bernstein" height="20"></a>
+
 A self-hosted pipeline that finds accounts, ads, apps and domains impersonating
 a brand, ranks them for an analyst, and records every decision on them as
 signed evidence that anyone with the public key can verify offline. It runs on
