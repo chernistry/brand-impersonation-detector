@@ -1,6 +1,12 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/chernistry/brand-impersonation-detector/main/assets/brand/header-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/chernistry/brand-impersonation-detector/main/assets/brand/header-light.svg">
+  <img alt="bid: Self-hosted detection of brand impersonation with signed, offline-verifiable evidence. Command: bid verify .bid/pipeline/receipts.jsonl." src="https://raw.githubusercontent.com/chernistry/brand-impersonation-detector/main/assets/brand/header-light.svg">
+</picture>
+
 # Brand impersonation detector
 
-<a href="https://github.com/sipyourdrink-ltd/bernstein"><img src="https://raw.githubusercontent.com/chernistry/brand-impersonation-detector/main/assets/built-with-bernstein.svg" alt="built with Bernstein" height="20"></a>
+<a href="https://github.com/sipyourdrink-ltd/bernstein"><picture>  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/chernistry/brand-impersonation-detector/main/assets/badge-built-with-dark.svg">  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/chernistry/brand-impersonation-detector/main/assets/badge-built-with-light.svg">  <img alt="built with Bernstein" src="https://raw.githubusercontent.com/chernistry/brand-impersonation-detector/main/assets/badge-built-with-light.svg"></picture></a>
 
 A self-hosted pipeline that finds accounts, ads, apps and domains impersonating
 a brand, ranks them for an analyst, and records every decision on them as
